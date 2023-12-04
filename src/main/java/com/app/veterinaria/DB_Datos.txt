@@ -1,0 +1,86 @@
+ClusterName: PetDataBase
+Usuario: admin
+Contraseña: admin
+Conexion: mongodb+srv://admin:<password>@petdatabase.em2jfdr.mongodb.net/?retryWrites=true&w=majority
+
+
+Login Color: #F7C67E
+
+
+{
+  "userId": "123abc",
+  "name": "John Doe",
+  "password": "password123",
+  "email": "john.doe@example.com",
+  "city": "Cityville",
+  "age": 30,
+  "pet": [
+    {
+      "name": "Buddy",
+      "type": "Dog",
+      "breed": "Labrador",
+      "age": 3,
+      "medicalHistory": [
+        {
+          "date": "2023-01-01",
+          "reason": "Annual checkup",
+          "note": "No issues found"
+        },
+        {
+          "date": "2023-05-15",
+          "reason": "Vaccination",
+          "note": "Up to date"
+        }
+      ]
+    },
+    {
+      "name": "Whiskers",
+      "type": "Cat",
+      "breed": "Siamese",
+      "age": 2,
+      "medicalHistory": [
+        {
+          "date": "2023-02-20",
+          "reason": "Dental checkup",
+          "note": "Clean bill of health"
+        }
+      ]
+    }
+  ]
+}
+
+## Como usar los Endpoints
+Obtener todos los usuarios
+Copy code
+
+GET /users
+Retornaría el arreglo con el usuario John Doe
+
+Obtener usuario por ID
+Copy code
+
+GET /users/32fd7980
+Retornaría el usuario John Doe
+
+Buscar por email
+Copy code
+
+GET /users/email/john.doe@example.com
+Retornaría usuario John Doe
+
+Buscar por nombre
+Copy code
+
+GET /users/name/John Doe
+Retornaría usuario John Doe
+
+Buscar por ciudad
+Copy code
+
+GET /users/city/Cityville
+Retornaría usuario John Doe
+
+Buscar por edad
+Copy code
+
+GET /users/age/30
