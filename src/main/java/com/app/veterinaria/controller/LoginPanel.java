@@ -24,13 +24,17 @@ public class LoginPanel {
     private Button cancelButton;
     @FXML
     private PasswordField passwordfield;
-
-
+    private SceneController sceneController;
 
     @Autowired
     private UserService userService;
+
     public void setSpringContext(ConfigurableApplicationContext springContext) {
         this.userService = springContext.getBean(UserService.class);
+    }
+
+    public void setSceneController(SceneController sceneController) {
+        this.sceneController = sceneController;
     }
 
     public void loginButtonOnAction(ActionEvent e) {
@@ -43,7 +47,13 @@ public class LoginPanel {
                 // Aquí puedes procesar la respuesta del servidor y realizar acciones según sea necesario
                 if (user != null) {
                     LoginMessageLabel.setText("Login successful!");
-                    // Puedes realizar acciones adicionales después del inicio de sesión exitoso
+
+                    if (sceneController != null) {
+                        sceneController.switchToLogin(email);
+                        sceneController.showStage();
+                    } else {
+                        System.err.println("Error: SceneController is null.");
+                    }
                 } else {
                     LoginMessageLabel.setText("Login failed. Please check your credentials.");
                 }

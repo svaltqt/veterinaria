@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="551.0" prefWidth="467.0" style="-fx-background-color: #F7C67E; -fx-border-color: #D69941;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.veterinaria.controller.DevsPanel">
+   <children>
+      <ImageView fitHeight="131.0" fitWidth="134.0" layoutX="30.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/perfil.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="196.0" layoutY="29.0" text="Developers">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Label layoutX="197.0" layoutY="120.0" text="Juan Camilo Ortiz Correa">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="197.0" layoutY="255.0" text="Juan Felipe Hincapie">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="197.0" layoutY="401.0" text="Santiago Pineda">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="131.0" fitWidth="134.0" layoutX="30.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/perfil.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="131.0" fitWidth="134.0" layoutX="30.0" layoutY="360.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/perfil.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="204.0" layoutY="511.0" text="Version 1.0" />
+      <Button fx:id="cancelButton" layoutX="403.0" layoutY="7.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" style="-fx-background-color: #F7C67E; -fx-border-color: #D69941;" text="Exit">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
