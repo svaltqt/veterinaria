@@ -21,7 +21,7 @@ public class PetService {
     }
 
     public List<Pet> findPetByBreed(String breed){
-        return repository.findByName(breed);
+        return repository.findByBreed(breed);
     }
 
 }

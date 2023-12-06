@@ -9,4 +9,5 @@ public interface PetRepository extends MongoRepository<Pet, String> {
 
     List<Pet> findByName(String name);
 
+    List<Pet> findByBreed(String breed);
 }

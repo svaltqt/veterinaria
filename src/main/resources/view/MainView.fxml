@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -13,12 +14,12 @@
    <children>
       <MenuBar prefHeight="25.0" prefWidth="964.0" style="-fx-background-color: #FAC16E; -fx-border-color: #D69941;">
         <menus>
-          <Menu mnemonicParsing="false" text="Registro Mascotas">
+          <Menu mnemonicParsing="false" text="Register Pet">
             <items>
-              <MenuItem mnemonicParsing="false" text="Agregar" />
-                  <MenuItem mnemonicParsing="false" text="Buscar" />
-                  <MenuItem mnemonicParsing="false" text="Actualizar" />
-                  <MenuItem mnemonicParsing="false" text="Eliminar" />
+              <MenuItem mnemonicParsing="false" text="Add" />
+                  <MenuItem fx:id="menuSearch" mnemonicParsing="false" onAction="#searchMenuOnAction" text="Search" />
+                  <MenuItem mnemonicParsing="false" text="Update" />
+                  <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Historial Médico">
@@ -45,5 +46,6 @@
             <Font size="18.0" />
          </font>
       </Button>
+      <ListView fx:id="petsListView" visible="false" layoutX="202.0" layoutY="322.0" prefHeight="256.0" prefWidth="601.0" />
    </children>
 </AnchorPane>

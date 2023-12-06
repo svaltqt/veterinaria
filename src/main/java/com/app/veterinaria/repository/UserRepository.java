@@ -17,7 +17,6 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     List<User> findByAge(int age);
 
-
     @Query("{email: ?0}")
     List<User> findByEmail(String email);
 }

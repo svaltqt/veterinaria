@@ -1,5 +1,6 @@
 package com.app.veterinaria.controller;
 
+import com.app.veterinaria.model.Pet;
 import com.app.veterinaria.model.User;
 import com.app.veterinaria.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.Map;
+
 @Controller
 @RestController
 @RequestMapping("/users")
@@ -47,6 +50,35 @@ public class UserController {
     @GetMapping("/age/{age}")
     public List<User> findUserUsingAge(@PathVariable int age){
         return userService.getUserByAge(age);
+    }
+
+    @GetMapping("/names")
+    public List<String> getAllUserNames() {
+        return userService.getAllUserNames();
+    }
+
+    @GetMapping("/petnames")
+    public List<String> getAllPetNames() {
+        return userService.getAllPetNames();
+    }
+
+    @GetMapping("/getAllPetsInfo")
+    public List<Pet> getAllPetsInfo() {
+        return userService.getAllPetsInfo();
+    }// http://localhost:8082/users/petsInfo
+
+    @GetMapping("/getAllPetsInfoByEmail")
+    public ResponseEntity<?> getAllPetsInfoByEmail(@RequestBody Map<String, String> requestBody) {
+        String email = requestBody.get("email");
+
+        if (email == null || email.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El campo 'email' es obligatorio.");
+        }
+        List<Pet> pets = userService.getAllPetsInfoByEmail(email);
+        if (pets.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron mascotas para el usuario con el correo electrónico proporcionado.");
+        }
+        return ResponseEntity.ok(pets);
     }
     @PutMapping
     public User modifyUser(@RequestBody User user){

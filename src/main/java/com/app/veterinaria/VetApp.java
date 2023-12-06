@@ -34,12 +34,13 @@ public class VetApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
+		// Permite que Spring maneje la creación del controlador FXML
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
+		loader.setControllerFactory(springContext::getBean);
 		rootNode = loader.load();
 
-		// Obtén el controlador y configura tanto el contexto de Spring como SceneController
+		// Obtén el controlador de FXML del cargador (ya no es necesario usar loader.getController())
 		LoginPanel loginPanel = loader.getController();
-		loginPanel.setSpringContext(springContext);
 		loginPanel.setSceneController(sceneController); // Configurar SceneController
 
 		primaryStage.initStyle(StageStyle.UNDECORATED);
