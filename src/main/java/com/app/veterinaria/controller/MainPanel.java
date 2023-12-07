@@ -55,6 +55,7 @@ public class MainPanel {
     public Button petUpdateButton;
     @FXML
     public MenuItem menuDelete;
+    public MenuItem menuUpdate;
 
     @Autowired
     private UserService userService;
@@ -88,8 +89,6 @@ public class MainPanel {
     private String userEmail;
 
     private List<String> pets;
-
-    private List<Pet> loadedPets = new ArrayList<>();
 
 
 
@@ -219,9 +218,6 @@ public class MainPanel {
                 loadButton.setVisible(false);
                 cleanButton.setVisible(false);
                 petsTableView.setVisible(false);
-
-
-
     }
 
     @FXML
@@ -274,8 +270,7 @@ public class MainPanel {
     }
 
 
-    public void petUpdateButtonOnAction(ActionEvent actionEvent) {
-    }
+
     @FXML
     public void menuDeleteOnAction(ActionEvent actionEvent) {
                 //Visibilidad de componentes
@@ -317,5 +312,27 @@ public class MainPanel {
             System.out.println("Error inesperado al intentar eliminar la mascota.");
             e.printStackTrace();
         }
+    }
+    @FXML
+    public void menuUpdateOnAction(ActionEvent actionEvent) {
+        //Visibilidad de componentes
+        petNameField.setVisible(true);
+        petBreedField.setVisible(true);
+        petTypeField.setVisible(true);
+        petAgeField.setVisible(true);
+        petNameLabel.setVisible(true);
+        petTypeLabel.setVisible(true);
+        petBreedlabel.setVisible(true);
+        petAgeLabel.setVisible(true);
+        petAddButton.setVisible(false);
+        loadButton.setVisible(true);
+        cleanButton.setVisible(true);
+        petsTableView.setVisible(true);
+        petUpdateButton.setVisible(true);
+        petDeleteButton.setVisible(false);
+
+    }
+    @FXML
+    public void petUpdateButtonOnAction(ActionEvent actionEvent) {
     }
 }

@@ -105,6 +105,8 @@ public ResponseEntity<List<Pet>> getAllPetsInfoByEmail(@RequestBody Map<String, 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();  // HttpStatus.INTERNAL_SERVER_ERROR
     }
 }
+
+
     @PostMapping("/users/{email}/pets")
     public ResponseEntity<?> addPetToUserByEmail(@PathVariable String email, @RequestBody Pet pet) {
         try {
