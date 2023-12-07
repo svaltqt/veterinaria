@@ -4,11 +4,16 @@ import com.app.veterinaria.model.User;
 import com.app.veterinaria.service.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -24,18 +29,18 @@ public class LoginPanel {
     private Button cancelButton;
     @FXML
     private PasswordField passwordfield;
-    private SceneController sceneController;
+    private Stage stage;
 
     @Autowired
     private UserService userService;
 
-    public void setSpringContext(ConfigurableApplicationContext springContext) {
-        this.userService = springContext.getBean(UserService.class);
-    }
+    @Autowired
+    private ConfigurableApplicationContext springContext;
 
-    public void setSceneController(SceneController sceneController) {
-        this.sceneController = sceneController;
-    }
+    public void setSpringContext(ConfigurableApplicationContext springContext) {
+        this.userService = springContext.getBean(UserService.class);    }
+
+
 
     public void loginButtonOnAction(ActionEvent e) {
         String email = emailfield.getText();
@@ -45,15 +50,23 @@ public class LoginPanel {
             try {
                 User user = userService.validateUser(email, password);
                 // Aquí puedes procesar la respuesta del servidor y realizar acciones según sea necesario
+
                 if (user != null) {
                     LoginMessageLabel.setText("Login successful!");
 
-                    if (sceneController != null) {
-                        sceneController.switchToLogin(email);
-                        sceneController.showStage();
-                    } else {
-                        System.err.println("Error: SceneController is null.");
-                    }
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainView.fxml"));
+                    loader.setControllerFactory(springContext::getBean); // Usar el contexto de Spring para crear el controlador
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
+
+                    // Obtén el Stage actual desde el evento
+                    this.stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+                    this.stage.setScene(scene);
+
+                    MainPanel mainPanel = loader.getController(); // Obtén el controlador de FXML del cargador
+                    mainPanel.displayEmail(email); // Configurar MainPanel
+
+
                 } else {
                     LoginMessageLabel.setText("Login failed. Please check your credentials.");
                 }

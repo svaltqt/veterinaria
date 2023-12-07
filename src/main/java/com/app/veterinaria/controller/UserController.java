@@ -67,6 +67,8 @@ public class UserController {
         return userService.getAllPetsInfo();
     }// http://localhost:8082/users/petsInfo
 
+/*
+    // Funciona con GET
     @GetMapping("/getAllPetsInfoByEmail")
     public ResponseEntity<?> getAllPetsInfoByEmail(@RequestBody Map<String, String> requestBody) {
         String email = requestBody.get("email");
@@ -78,8 +80,33 @@ public class UserController {
         if (pets.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron mascotas para el usuario con el correo electrónico proporcionado.");
         }
-        return ResponseEntity.ok(pets);
+        return ResponseEntity.ok(pets);    }
+
+*/
+    // FUnciona con Post
+@PostMapping("/getAllPetsInfoByEmail")
+public ResponseEntity<List<Pet>> getAllPetsInfoByEmail(@RequestBody Map<String, String> requestBody) {
+    try {
+        String email = requestBody.get("email");
+
+        if (email == null || email.isEmpty()) {
+            return ResponseEntity.badRequest().body(null);  // HttpStatus.BAD_REQUEST
+        }
+
+        List<Pet> pets = userService.getAllPetsInfoByEmail(email);
+
+        if (pets.isEmpty()) {
+            return ResponseEntity.notFound().build();  // HttpStatus.NOT_FOUND
+        }
+
+        return ResponseEntity.ok(pets);  // HttpStatus.OK
+    } catch (Exception e) {
+        // Manejar excepciones de manera adecuada
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();  // HttpStatus.INTERNAL_SERVER_ERROR
     }
+}
+
+
     @PutMapping
     public User modifyUser(@RequestBody User user){
         return userService.updateUser(user);

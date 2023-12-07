@@ -18,4 +18,8 @@ public class Pet {
     private List<MedicalHistory> MedicalHistory;
 
 
+    @Override
+    public String toString() {
+        return String.format("Nombre: %s, Tipo: %s, Raza: %s, Edad: %d", name, type, breed, age);
+    }
 }

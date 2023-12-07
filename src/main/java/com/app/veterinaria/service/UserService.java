@@ -4,17 +4,18 @@ import com.app.veterinaria.model.Pet;
 import com.app.veterinaria.model.User;
 import com.app.veterinaria.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 
 
 @Service
+@Component
+@RestController
 public class UserService {
 
     private UserRepository repository;

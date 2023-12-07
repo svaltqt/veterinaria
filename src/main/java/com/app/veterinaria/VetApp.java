@@ -1,7 +1,6 @@
 package com.app.veterinaria;
 
 import com.app.veterinaria.controller.LoginPanel;
-import com.app.veterinaria.controller.SceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +18,6 @@ public class VetApp extends Application {
 
 	private ConfigurableApplicationContext springContext;
 	private Parent rootNode;
-	private SceneController sceneController;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -29,7 +27,7 @@ public class VetApp extends Application {
 	public void init() {
 		// Inicializa el contexto de Spring Boot antes de iniciar la aplicación JavaFX
 		springContext = SpringApplication.run(VetApp.class);
-		sceneController = new SceneController(); // Crear una instancia de SceneController
+
 	}
 
 	@Override
@@ -38,18 +36,13 @@ public class VetApp extends Application {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
 		loader.setControllerFactory(springContext::getBean);
 		rootNode = loader.load();
-
-		// Obtén el controlador de FXML del cargador (ya no es necesario usar loader.getController())
-		LoginPanel loginPanel = loader.getController();
-		loginPanel.setSceneController(sceneController); // Configurar SceneController
-
 		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.setScene(new Scene(rootNode, 600, 400));
 		primaryStage.show();
 	}
 
 	@Override
-	public void stop() {
+	public void stop() throws Exception {
 		// Detiene el contexto de Spring Boot al cerrar la aplicación JavaFX
 		springContext.close();
 	}
