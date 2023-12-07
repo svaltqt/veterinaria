@@ -6,19 +6,32 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="964.0" style="-fx-background-color: #F7C67E;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.veterinaria.controller.MainPanel">
    <children>
+      <ImageView fitHeight="656.0" fitWidth="634.0" layoutX="258.0" layoutY="-74.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/fieldsBackground.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="620.0" fitWidth="564.0" layoutY="-28.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/background.png" />
+         </image>
+      </ImageView>
       <MenuBar prefHeight="25.0" prefWidth="964.0" style="-fx-background-color: #FAC16E; -fx-border-color: #D69941;">
         <menus>
           <Menu mnemonicParsing="false" text="Pets">
             <items>
-              <MenuItem mnemonicParsing="false" text="Add" />
+              <MenuItem fx:id="menuAdd" mnemonicParsing="false" onAction="#menuAddOnAction" text="Add" />
                   <MenuItem fx:id="menuSearch" mnemonicParsing="false" onAction="#searchMenuOnAction" text="Search" />
                   <MenuItem mnemonicParsing="false" text="Update" />
-                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#menuDeleteOnAction" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Medical History">
@@ -56,5 +69,40 @@
          </font>
       </Button>
       <TableView fx:id="petsTableView" layoutX="207.0" layoutY="322.0" onSort="#petsTableViewOnAction" prefHeight="254.0" prefWidth="613.0" visible="false" />
+      <TextField fx:id="petNameField" layoutX="575.0" layoutY="83.0" prefHeight="25.0" prefWidth="142.0" promptText="Pet Name" visible="false" />
+      <TextField fx:id="petTypeField" layoutX="575.0" layoutY="137.0" prefHeight="25.0" prefWidth="142.0" promptText="Type" visible="false" />
+      <TextField fx:id="petBreedField" layoutX="575.0" layoutY="197.0" prefHeight="25.0" prefWidth="142.0" promptText="Pet Breed" visible="false" />
+      <TextField fx:id="petAgeField" layoutX="575.0" layoutY="252.0" prefHeight="25.0" prefWidth="69.0" promptText="Pet Age" visible="false" />
+      <Label fx:id="petNameLabel" layoutX="503.0" layoutY="62.0" text="Name" visible="false">
+         <font>
+            <Font name="Javanese Text" size="24.0" />
+         </font></Label>
+      <Label fx:id="petTypeLabel" layoutX="507.0" layoutY="116.0" text="Type" visible="false">
+         <font>
+            <Font name="Javanese Text" size="24.0" />
+         </font></Label>
+      <Label fx:id="petBreedlabel" layoutX="503.0" layoutY="176.0" text="Breed" visible="false">
+         <font>
+            <Font name="Javanese Text" size="24.0" />
+         </font></Label>
+      <Label fx:id="petAgeLabel" layoutX="513.0" layoutY="231.0" text="Age" visible="false">
+         <font>
+            <Font name="Javanese Text" size="24.0" />
+         </font></Label>
+      <Button fx:id="petAddButton" layoutX="28.0" layoutY="449.0" mnemonicParsing="false" onAction="#petAddButtonOnAction" prefHeight="41.0" prefWidth="135.0" style="-fx-background-color: #D9B971; -fx-border-color: #C2BDB2;" text="Add" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="petUpdateButton" layoutX="28.0" layoutY="449.0" mnemonicParsing="false" onAction="#petUpdateButtonOnAction" prefHeight="41.0" prefWidth="135.0" style="-fx-background-color: #D9B971; -fx-border-color: #C2BDB2;" text="Update" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="petDeleteButton" layoutX="28.0" layoutY="449.0" mnemonicParsing="false" onAction="#petDeleteButtonOnAction" prefHeight="41.0" prefWidth="135.0" style="-fx-background-color: #D9B971; -fx-border-color: #C2BDB2;" text="Delete" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

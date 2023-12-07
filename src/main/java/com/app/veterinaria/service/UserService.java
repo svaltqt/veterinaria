@@ -2,6 +2,7 @@ package com.app.veterinaria.service;
 
 import com.app.veterinaria.model.Pet;
 import com.app.veterinaria.model.User;
+import com.app.veterinaria.repository.PetRepository;
 import com.app.veterinaria.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,9 @@ import java.util.UUID;
 public class UserService {
 
     private UserRepository repository;
+
+    @Autowired
+    private PetRepository petRepository;
 
     @Autowired
     public void setRepository(UserRepository repository) {
@@ -52,6 +56,7 @@ public class UserService {
         return repository.findByAge(age);
     }
 
+    // PETS
 
     // Buscar los usuarios solo por nombre y enlistarlos
     public List<String> getAllUserNames() {
@@ -127,7 +132,30 @@ public class UserService {
         return getAllPetsInfo;
     }
 
+    public Pet addPetToUserByEmail(String userEmail, Pet pet) {
+        // Buscar al usuario por correo electrónico
+        List<User> users = repository.findByEmail(userEmail);
 
+        if (!users.isEmpty()) {
+            // Asumiendo que el correo electrónico es único, tomamos el primer usuario
+            User user = users.get(0);
+
+            // Agregar la nueva mascota a la lista de mascotas del usuario
+            user.getPet().add(pet);
+
+            // Guardar el usuario actualizado en la base de datos
+            repository.save(user);
+
+            // Devolver la nueva mascota
+            return pet;
+        } else {
+            // Manejar el caso en que no se encuentra al usuario
+            throw new RuntimeException("No se encontró al usuario con el correo electrónico proporcionado.");
+        }
+    }
+
+
+    // VALIDACIONES
 
     public User validateUser(String email, String password) {
 
@@ -161,5 +189,21 @@ public class UserService {
         repository.deleteById(userId);
         return userId+" deleted";
    }
+
+   //pet Delete
+
+    public void removePetFromUserByEmailAndName(String userEmail, String petName) {
+        List<User> users = repository.findByEmail(userEmail);
+        // Asumiendo que el correo electrónico es único, tomamos el primer usuario
+        User user = users.get(0);
+        if (user != null) {
+            List<Pet> pets = user.getPet();
+            pets.removeIf(pet -> pet.getName().equals(petName));
+            user.setPet(pets);
+            repository.save(user);
+        } else {
+            throw new RuntimeException("No se encontró al usuario con el correo electrónico proporcionado.");
+        }
+    }
 
 }

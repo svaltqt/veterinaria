@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,31 @@ import java.util.List;
 @Controller
 @Service
 public class MainPanel {
+    @FXML
+    public TextField petNameField;
+    @FXML
+    public TextField petTypeField;
+    @FXML
+    public TextField petBreedField;
+    @FXML
+    public TextField petAgeField;
+    @FXML
+    public Button petAddButton;
+    @FXML
+    public Button petDeleteButton;
+    public MenuItem menuAdd;
+    @FXML
+    public Label petNameLabel;
+    @FXML
+    public Label petTypeLabel;
+    @FXML
+    public Label petBreedlabel;
+    @FXML
+    public Label petAgeLabel;
+    @FXML
+    public Button petUpdateButton;
+    @FXML
+    public MenuItem menuDelete;
 
     @Autowired
     private UserService userService;
@@ -62,6 +88,8 @@ public class MainPanel {
     private String userEmail;
 
     private List<String> pets;
+
+    private List<Pet> loadedPets = new ArrayList<>();
 
 
 
@@ -99,13 +127,22 @@ public class MainPanel {
     @FXML
     public void searchMenuOnAction(ActionEvent e) {
         try {
-
-
             // Hacer la ListView visible
-
             loadButton.setVisible(true);
             cleanButton.setVisible(true);
             petsTableView.setVisible(true);
+            petAddButton.setVisible(false);
+            petDeleteButton.setVisible(false);
+            petNameField.setVisible(false);
+            petBreedField.setVisible(false);
+            petTypeField.setVisible(false);
+            petAgeField.setVisible(false);
+            petNameLabel.setVisible(false);
+            petTypeLabel.setVisible(false);
+            petBreedlabel.setVisible(false);
+             petAgeLabel.setVisible(false);
+
+
 
         } catch (Exception ex) {
             // Manejar la excepción de manera adecuada
@@ -137,51 +174,6 @@ public class MainPanel {
         petsTableView.getColumns().setAll(columns);
     }
 
-    /** public void loadButtonOnAction(ActionEvent event) {
-     // Obtener el correo electrónico del usuario actual usando el valor almacenado en userEmail
-     String userEmail = this.userEmail;
-
-     List<Pet> pets = new ArrayList<>();
-
-     Pet pet1 = new Pet();
-     pet1.setName("Max");
-     pet1.setType("Dog");
-     pet1.setBreed("Labrador");
-     pet1.setAge(3);
-
-     Pet pet2 = new Pet();
-     pet2.setName("Rocky");
-     pet2.setType("Cat");
-     pet2.setBreed("Siamese");
-     pet2.setAge(2);
-
-     Pet pet3 = new Pet();
-     pet3.setName("Cooper");
-     pet3.setType("Dog");
-     pet3.setBreed("Golden Retriever");
-     pet3.setAge(4);
-
-     pets.add(pet1);
-     pets.add(pet2);
-     pets.add(pet3);
-
-     if (userEmail != null && !userEmail.isEmpty()) {
-     // Crear lista de prueba de objetos Pet
-
-     ObservableList<Pet> petsList = FXCollections.observableArrayList(pets);
-
-     // Wrap en ObservableList para usar en JavaFX
-     //ObservableList<Pet> petsList = FXCollections.observableArrayList(pets);
-
-     // Asignar al TableView
-     petsTableView.setItems(petsList);
-     } else {
-     // Manejar caso de correo electrónico nulo o vacío
-     System.out.println("Error: El correo electrónico del usuario no está disponible.");
-     }
-     }
-     **/
-
     @FXML
     public void loadButtonOnAction(ActionEvent event) {
         // Obtener el correo electrónico del usuario actual usando el valor almacenado en userEmail
@@ -208,7 +200,122 @@ public class MainPanel {
     public void cleanButtonOnAction(ActionEvent e) {
         petsTableView.getItems().clear();
     }
-
+    @FXML
     public void petsTableViewOnAction(SortEvent<TableView> tableViewSortEvent) {
+    }
+
+    @FXML
+    public void menuAddOnAction(ActionEvent actionEvent) {
+                //Visibilidad de componentes
+                petNameField.setVisible(true);
+                petBreedField.setVisible(true);
+                petTypeField.setVisible(true);
+                petAgeField.setVisible(true);
+                petNameLabel.setVisible(true);
+                petTypeLabel.setVisible(true);
+                petBreedlabel.setVisible(true);
+                petAgeLabel.setVisible(true);
+                petAddButton.setVisible(true);
+                loadButton.setVisible(false);
+                cleanButton.setVisible(false);
+                petsTableView.setVisible(false);
+
+
+
+    }
+
+    @FXML
+    public void petAddButtonOnAction(ActionEvent actionEvent) {
+        try {
+            // Vista
+            petsTableView.setVisible(true);
+            // Obtener los valores de los campos de texto
+            String name = petNameField.getText();
+            String type = petTypeField.getText();
+            String breed = petBreedField.getText();
+            int age = Integer.parseInt(petAgeField.getText());
+
+            // Verificar que name, type y breed no sean numéricos
+            if (name.matches(".*\\d.*") || type.matches(".*\\d.*") || breed.matches(".*\\d.*")) {
+                // Mostrar un popup de error si los campos no se ingresan correctamente
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error en la entrada de datos");
+                alert.setContentText("Los campos Name, Type y Breed no deben contener números.");
+                alert.showAndWait();
+            } else {
+                // Crear una nueva instancia de Pet
+                Pet pet = new Pet();
+                pet.setName(name);
+                pet.setType(type);
+                pet.setBreed(breed);
+                pet.setAge(age);
+
+                // Agregar la nueva mascota
+                userService.addPetToUserByEmail(userEmail, pet);
+
+                // Limpiar los campos de texto
+                petNameField.clear();
+                petTypeField.clear();
+                petBreedField.clear();
+                petAgeField.clear();
+
+                // Actualizar la lista de mascotas
+                loadButtonOnAction(actionEvent);
+            }
+        } catch (NumberFormatException e) {
+            // Mostrar un popup de error si los campos no se ingresan correctamente
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error en la entrada de datos");
+            alert.setContentText("Por favor ingrese una edad válida para la mascota.");
+            alert.showAndWait();
+        }
+    }
+
+
+    public void petUpdateButtonOnAction(ActionEvent actionEvent) {
+    }
+    @FXML
+    public void menuDeleteOnAction(ActionEvent actionEvent) {
+                //Visibilidad de componentes
+                petNameField.setVisible(true);
+                petBreedField.setVisible(false);
+                petTypeField.setVisible(false);
+                petAgeField.setVisible(false);
+                petNameLabel.setVisible(true);
+                petTypeLabel.setVisible(false);
+                petBreedlabel.setVisible(false);
+                petAgeLabel.setVisible(false);
+                petAddButton.setVisible(false);
+                loadButton.setVisible(true);
+                cleanButton.setVisible(true);
+                petsTableView.setVisible(true);
+                petDeleteButton.setVisible(true);
+    }
+
+    @FXML
+    public void petDeleteButtonOnAction(ActionEvent actionEvent) {
+        try {
+            String petName = petNameField.getText(); // Obtener el nombre de la mascota del campo de texto
+            String userEmail = this.userEmail; // Obtener el correo electrónico del usuario actual
+
+            if (petName != null && userEmail != null) {
+                // Llamar al método del UserService para eliminar la mascota
+                userService.removePetFromUserByEmailAndName(userEmail, petName);
+
+                // Manejar la eliminación exitosa de la mascota
+                System.out.println("La mascota se eliminó correctamente.");
+            } else {
+                // Manejar el caso de petName o userEmail nulos
+                System.out.println("Error: El nombre de la mascota o el correo electrónico del usuario no están disponibles.");
+            }
+            // Actualizar la lista de mascotas
+            loadButtonOnAction(actionEvent);
+        } catch (Exception e) {
+            // Manejar cualquier excepción inesperada
+            System.out.println("Error inesperado al intentar eliminar la mascota.");
+            e.printStackTrace();
+        }
     }
 }

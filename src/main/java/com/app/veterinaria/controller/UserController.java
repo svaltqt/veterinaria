@@ -105,6 +105,26 @@ public ResponseEntity<List<Pet>> getAllPetsInfoByEmail(@RequestBody Map<String, 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();  // HttpStatus.INTERNAL_SERVER_ERROR
     }
 }
+    @PostMapping("/users/{email}/pets")
+    public ResponseEntity<?> addPetToUserByEmail(@PathVariable String email, @RequestBody Pet pet) {
+        try {
+            Pet savedPet = userService.addPetToUserByEmail(email, pet);
+            return ResponseEntity.ok(savedPet);
+        } catch (Exception e) {
+            // Manejar excepciones de manera adecuada
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @DeleteMapping("/users/{userEmail}/pets/{petName}")
+    public ResponseEntity<String> removePetFromUserByEmailAndName(@PathVariable String userEmail, @PathVariable String petName) {
+        userService.removePetFromUserByEmailAndName(userEmail, petName);
+        return ResponseEntity.ok("Pet removed successfully");
+    }
+
+
+
+
 
 
     @PutMapping
